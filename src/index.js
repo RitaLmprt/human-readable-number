@@ -1,5 +1,5 @@
 module.exports = function toReadable (number) {
-  const numbers  = {
+  const words  = {
     hundred: {
         100: "one hundred ",
         200: "two hundred ",
@@ -11,7 +11,7 @@ module.exports = function toReadable (number) {
         800: "eight hundred ",
         900: "nine hundred "
     },
-    decimal: {
+    dec: {
         10: "ten ",
         20: "twenty ",
         30: "thirty ",
@@ -22,7 +22,7 @@ module.exports = function toReadable (number) {
         80: "eighty ",
         90: "ninety "
     },
-    ones: {
+    unit: {
         1: "one",
         2: "two",
         3: "three",
@@ -46,21 +46,20 @@ module.exports = function toReadable (number) {
     }
   }
 
-  let onesNum = number % 10;
+  let unitNum = number % 10;
   let tenthNum = number % 100;
-  let decimalNum = 0;
+  let decNum = 0;
 
   if(tenthNum > 10 && tenthNum < 20) {
-    decimalNum = tenthNum;
-    onesNum = '';
+    decNum = tenthNum;
+    unitNum = '';
   } else {
-    decimalNum = (number - onesNum) % 100;
+    decNum = (number - unitNum) % 100;
   }
 
-  let hundredNum = number - decimalNum - onesNum;
+  let hundredNum = number - decNum - unitNum;
 
   if(number == 0) return "zero";
 
-  return `${numbers.hundred[hundredNum] || ''}${((decimalNum > 10 && decimalNum < 20) ? numbers.tenths[decimalNum] : numbers.dec[decimalNum]) || ''}${numbers.ones[onesNum] || ''}`.trim()
-}   
-
+  return `${words.hundred[hundredNum] || ''}${((decNum > 10 && decNum < 20) ? words.tenths[decNum] : words.dec[decNum]) || ''}${words.unit[unitNum] || ''}`.trim()
+}  
